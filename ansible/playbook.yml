@@ -1,0 +1,19 @@
+---
+- name: deploy wordpress to docker
+  hosts: testing
+  become: yes
+  tasks:
+  - name: update linux
+    ansible.builtin.shell: sudo apt update
+  - name: install docker & docker-compose
+    ansible.builtin.shell: sudo apt install -y docker-compose docker.io
+  - name: copy docker-compose
+    ansible.builtin.copy:
+      src: /home/ubuntu/docker-compose.yml
+      dest: /home/ubuntu/docker-compose.yml
+      follow: yes
+  - name: create dir
+    ansible.builtin.shell: mkdir db_data wp_data
+  - name: up docker
+    ansible.builtin.shell: docker-compose up -d
+
